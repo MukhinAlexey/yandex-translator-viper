@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YandexTranslator</string>
+    <string name="hint">Введите текст для перевода</string>
+    <string name="back">Назад</string>
+</resources>
