@@ -1,17 +1,20 @@
 package com.alexeymukhin.yandextranslator.TranslatorModule;
 
 
+import com.alexeymukhin.yandextranslator.Services.API.APIService;
+import com.alexeymukhin.yandextranslator.Services.API.APIServiceImpl;
+
 public class TranslatorAssembly {
     public static final TranslatorAssembly INSTANCE = new TranslatorAssembly();
 
     public void configure(TranslatorActivity translatorActivity) {
         TranslatorPresenter translatorPresenter = new TranslatorPresenter();
         TranslatorInteractor translatorInteractor = new TranslatorInteractor();
-        TranslatorRouter translatorRouter = new TranslatorRouterImpl();
-        // APIService server = new APIServiceImpl();
+        TranslatorRouterInput translatorRouter = new TranslatorRouter();
+        APIService server = new APIServiceImpl();
 
         translatorInteractor.setPresenter(translatorPresenter);
-        // TranslatorInteractor.setServer(server);
+        translatorInteractor.setServer(server);
         translatorPresenter.setInteractor(translatorInteractor);
         translatorPresenter.setRouter(translatorRouter);
         translatorPresenter.setView(translatorActivity);

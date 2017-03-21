@@ -6,8 +6,11 @@ import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BasePresenter;
 
 
 public class TranslatorPresenter
-        extends BasePresenter<TranslatorActivityInput, TranslatorRouter, TranslatorInteractorInput>
+        extends BasePresenter<TranslatorActivityInput, TranslatorRouterInput, TranslatorInteractorInput>
         implements TranslatorPresenterInput {
+
+
+    // ============================= Input Interface =========================
 
     @Override
     public void getTranslation(String textToTranslate) {
@@ -17,6 +20,14 @@ public class TranslatorPresenter
     @Override
     public void showSelectLanguageActivityOver(Activity parentActivity) {
         this.getRouter().showLanguageSelectActivityOver(parentActivity);
+    }
+
+
+    // ============================= Output Interface ========================
+
+    @Override
+    public void didGetSupportedLanguages() {
+        this.getView().didGetSupportedLanguages();
     }
 
     @Override

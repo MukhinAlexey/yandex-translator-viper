@@ -2,13 +2,15 @@ package com.alexeymukhin.yandextranslator.TranslatorModule;
 
 interface TranslatorInteractorInput {
 
-    void getTranslation(String textToTranslate);
-
     void checkLanguage(String textToCheck);
+
+    void getTranslation(String textToTranslate);
 
 }
 
 interface TranslatorInteractorOutput {
+
+    void didGetSupportedLanguages();
 
     void didGetTranslation(String translatedText);
 

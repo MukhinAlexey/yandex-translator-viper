@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BaseActivity;
 import com.alexeymukhin.yandextranslator.R;
 
+import java.util.Locale;
+
 public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> implements TranslatorActivityInput {
 
     EditText editText;
@@ -25,7 +27,7 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translator);
 
-        this.configureViper();
+        this.configureVIPER();
         this.configureButtons();
         this.configureEditText();
     }
@@ -56,9 +58,7 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
         });
     }
 
-
-
-    void configureViper(){
+    void configureVIPER(){
         TranslatorAssembly.INSTANCE.configure(this);
     }
 
@@ -75,7 +75,8 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
         });
     }
 
-
-
-
+    @Override
+    public void didGetSupportedLanguages() {
+        System.out.println("================> didGetSupportedLanguages");
+    }
 }

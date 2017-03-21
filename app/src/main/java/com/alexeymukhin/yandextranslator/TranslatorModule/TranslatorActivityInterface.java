@@ -12,4 +12,5 @@ interface TranslatorActivityOutput {
 
 interface TranslatorActivityInput {
 
+    void didGetSupportedLanguages();
 }
