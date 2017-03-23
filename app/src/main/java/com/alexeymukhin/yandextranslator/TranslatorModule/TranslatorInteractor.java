@@ -1,45 +1,37 @@
 package com.alexeymukhin.yandextranslator.TranslatorModule;
 
-import com.alexeymukhin.yandextranslator.Entities.RecognizedLanguage;
-import com.alexeymukhin.yandextranslator.Entities.SupportedLanguages;
+import com.alexeymukhin.yandextranslator.Entities.TranslationEntity;
 import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BaseInteractor;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
-import com.alexeymukhin.yandextranslator.Services.API.APIServiceImpl;
 import com.alexeymukhin.yandextranslator.Services.API.APIService;
 
-import java.util.ArrayList;
-
-public class TranslatorInteractor
+class TranslatorInteractor
         extends BaseInteractor<TranslatorPresenterInput>
         implements TranslatorInteractorInput {
 
     private APIService server;
 
-    public APIService getServer() {
-        return server;
-    }
-
-    public void setServer(APIService server) {
+    void setServer(APIService server) {
         this.server = server;
     }
 
     @Override
-    public void checkLanguage(String textToCheck) {
-        this.server.checkLanguage(textToCheck, new ArrayList<String>(), new Escaping<RecognizedLanguage>() {
+    public void getSelectedLanguages() {
+        getPresenter().didGetSelectedLanguages("Русский", "Английский");
+    }
+
+    @Override
+    public void translate(String text, String fromLanguage, String toLanguage) {
+        server.getTranslation(text, "en-ru", new Escaping<TranslationEntity>() {
             @Override
-            public void onSuccess(RecognizedLanguage response) {
-                getPresenter().didCheckLanguage("");
+            public void onSuccess(TranslationEntity response) {
+                System.out.println(response.getText());
             }
 
             @Override
             public void onFailure(Throwable error) {
-                getPresenter().didGetError();
+
             }
         });
-    }
-
-    @Override
-    public void getTranslation(String textToTranslate) {
-        //this.server.checkLanguage();
     }
 }

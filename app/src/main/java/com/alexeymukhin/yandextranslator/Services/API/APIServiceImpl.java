@@ -2,8 +2,8 @@ package com.alexeymukhin.yandextranslator.Services.API;
 
 import android.text.TextUtils;
 
-import com.alexeymukhin.yandextranslator.Entities.RecognizedLanguage;
-import com.alexeymukhin.yandextranslator.Entities.SupportedLanguages;
+import com.alexeymukhin.yandextranslator.Entities.LanguageConfigEntity;
+import com.alexeymukhin.yandextranslator.Entities.TranslationEntity;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
 
 import java.util.List;
@@ -17,11 +17,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APIServiceImpl implements APIService {
 
     private YandexTranslatorAPI yandexTranslatorAPI;
-    private Retrofit retrofit;
     private String token = "trnsl.1.1.20170321T170357Z.572bc7cdd67de5fd.4f7abab4db7729f980ed966365782f465dcc043b";
 
     public APIServiceImpl() {
-        this.retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://translate.yandex.net/api/v1.5/tr.json/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -30,40 +29,36 @@ public class APIServiceImpl implements APIService {
 
 
     @Override
-    public void getSupportedLanguages(String uiLanguage, final Escaping<SupportedLanguages> escaping) {
+    public void getSupportedLanguages(String uiLanguage, final Escaping<LanguageConfigEntity> escaping) {
         this.yandexTranslatorAPI.getSupportedLanguages(uiLanguage, token)
-                .enqueue(new Callback<SupportedLanguages>() {
+                .enqueue(new Callback<LanguageConfigEntity>() {
                     @Override
-                    public void onResponse(Call<SupportedLanguages> call, Response<SupportedLanguages> response) {
+                    public void onResponse(Call<LanguageConfigEntity> call, Response<LanguageConfigEntity> response) {
                         escaping.onSuccess(response.body());
                     }
 
                     @Override
-                    public void onFailure(Call<SupportedLanguages> call, Throwable t) {
+                    public void onFailure(Call<LanguageConfigEntity> call, Throwable t) {
 
                     }
                 });
     }
 
     @Override
-    public void checkLanguage(String text, List<String> possibleLanguages, final Escaping<RecognizedLanguage> escaping) {
-        this.yandexTranslatorAPI.checkLanguage(text, this.transformListToAPIString(possibleLanguages), "")
-                .enqueue(new Callback<RecognizedLanguage>() {
+    public void getTranslation(String text, String direction, final Escaping<TranslationEntity> escaping) {
+        this.yandexTranslatorAPI.getTranslation(text, direction, token)
+                .enqueue(new Callback<TranslationEntity>() {
                     @Override
-                    public void onResponse(Call<RecognizedLanguage> call, Response<RecognizedLanguage> response) {
+                    public void onResponse(Call<TranslationEntity> call, Response<TranslationEntity> response) {
+                        System.out.println(response.body().toString());
                         escaping.onSuccess(response.body());
                     }
 
                     @Override
-                    public void onFailure(Call<RecognizedLanguage> call, Throwable t) {
+                    public void onFailure(Call<TranslationEntity> call, Throwable t) {
 
                     }
                 });
-    }
-
-    @Override
-    public void getTranslation(String textToTranslate) {
-
     }
 
     private String transformListToAPIString(List<String> listToTransform) {

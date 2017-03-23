@@ -4,13 +4,8 @@ import android.app.Activity;
 
 interface TranslatorActivityOutput {
 
-    void getTranslation(String textToTranslate);
+    void translate(String text, String fromLanguage, String toLanguage);
 
     void showSelectLanguageActivityOver(Activity parentActivity);
 
-}
-
-interface TranslatorActivityInput {
-
-    void didGetSupportedLanguages();
 }

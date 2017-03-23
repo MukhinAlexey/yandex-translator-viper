@@ -21,8 +21,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:text="English"
             android:textColor="#fff"
+            android:stateListAnimator="@null"
             android:background="@color/colorPrimary"/>
 
         <Button
@@ -32,8 +32,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:text="-"
             android:textColor="#fff"
+            android:stateListAnimator="@null"
             android:background="@color/colorPrimary"/>
 
         <Button
@@ -43,8 +43,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:text="Russian"
             android:textColor="#fff"
+            android:stateListAnimator="@null"
             android:background="@color/colorPrimary"/>
 
     </android.support.v7.widget.Toolbar>

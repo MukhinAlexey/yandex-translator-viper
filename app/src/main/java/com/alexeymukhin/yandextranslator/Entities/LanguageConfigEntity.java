@@ -6,28 +6,28 @@ import java.util.Map;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SupportedLanguages {
+public class LanguageConfigEntity {
 
     @SerializedName("dirs")
     @Expose
-    private List<String> directions = null;
+    private List<String> directions;
     @SerializedName("langs")
     @Expose
     private Map<String, String> languages;
 
-    public List<String> getDirs() {
+    public List<String> getDirections() {
         return directions;
     }
 
-    public void setDirs(List<String> directions) {
+    public void setDirections(List<String> directions) {
         this.directions = directions;
     }
 
-    public Map<String, String> getLanguage() {
+    public Map<String, String> getLanguages() {
         return languages;
     }
 
-    public void setLanguage(Map<String, String> languages) {
+    public void setLanguages(Map<String, String> languages) {
         this.languages = languages;
     }
 

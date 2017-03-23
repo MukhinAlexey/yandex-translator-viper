@@ -13,9 +13,10 @@ public class TranslatorPresenter
     // ============================= Input Interface =========================
 
     @Override
-    public void getTranslation(String textToTranslate) {
-        this.getInteractor().getTranslation(textToTranslate);
+    public void translate(String text, String fromLanguage, String toLanguage) {
+        getInteractor().translate(text, fromLanguage, toLanguage);
     }
+
 
     @Override
     public void showSelectLanguageActivityOver(Activity parentActivity) {
@@ -26,8 +27,8 @@ public class TranslatorPresenter
     // ============================= Output Interface ========================
 
     @Override
-    public void didGetSupportedLanguages() {
-        this.getView().didGetSupportedLanguages();
+    public void didGetSelectedLanguages(String fromLanguage, String toLanguage) {
+        this.getView().didGetSelectedLanguages(fromLanguage, toLanguage);
     }
 
     @Override

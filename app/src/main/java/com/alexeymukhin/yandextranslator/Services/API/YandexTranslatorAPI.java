@@ -1,7 +1,7 @@
 package com.alexeymukhin.yandextranslator.Services.API;
 
-import com.alexeymukhin.yandextranslator.Entities.RecognizedLanguage;
-import com.alexeymukhin.yandextranslator.Entities.SupportedLanguages;
+import com.alexeymukhin.yandextranslator.Entities.LanguageConfigEntity;
+import com.alexeymukhin.yandextranslator.Entities.TranslationEntity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,14 +9,14 @@ import retrofit2.http.Query;
 
 public interface YandexTranslatorAPI {
 
-    @GET("detect")
-    Call<RecognizedLanguage> checkLanguage(@Query("text") String text,
-                                           @Query("hint") String hint,
+    @GET("translate")
+    Call<TranslationEntity> getTranslation(@Query("text") String text,
+                                           @Query("lang") String direction,
                                            @Query("key") String token);
 
     @GET("getLangs")
-    Call<SupportedLanguages> getSupportedLanguages(@Query("ui") String uiLanguage,
-                                                   @Query("key") String token);
+    Call<LanguageConfigEntity> getSupportedLanguages(@Query("ui") String uiLanguage,
+                                                     @Query("key") String token);
 
 }
 

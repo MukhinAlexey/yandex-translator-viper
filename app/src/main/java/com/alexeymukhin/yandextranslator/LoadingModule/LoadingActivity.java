@@ -8,6 +8,8 @@ import com.alexeymukhin.yandextranslator.R;
 
 import java.util.Locale;
 
+import io.realm.Realm;
+
 public class LoadingActivity
         extends BaseActivity<LoadingPresenter>
         implements LoadingActivityInput {
