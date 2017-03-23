@@ -13,6 +13,11 @@ public class TranslatorPresenter
     // ============================= Input Interface =========================
 
     @Override
+    public void getSelectedLanguages() {
+        getInteractor().getSelectedLanguages();
+    }
+
+    @Override
     public void translate(String text, String fromLanguage, String toLanguage) {
         getInteractor().translate(text, fromLanguage, toLanguage);
     }
@@ -20,7 +25,7 @@ public class TranslatorPresenter
 
     @Override
     public void showSelectLanguageActivityOver(Activity parentActivity) {
-        this.getRouter().showLanguageSelectActivityOver(parentActivity);
+        getRouter().showLanguageSelectActivityOver(parentActivity);
     }
 
 
@@ -28,12 +33,12 @@ public class TranslatorPresenter
 
     @Override
     public void didGetSelectedLanguages(String fromLanguage, String toLanguage) {
-        this.getView().didGetSelectedLanguages(fromLanguage, toLanguage);
+        getView().didGetSelectedLanguages(fromLanguage, toLanguage);
     }
 
     @Override
-    public void didGetTranslation(String translatedText) {
-
+    public void didTranslate(String text) {
+        getView().didTranslate(text);
     }
 
     @Override

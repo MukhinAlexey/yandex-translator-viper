@@ -25,7 +25,7 @@ class TranslatorInteractor
         server.getTranslation(text, "en-ru", new Escaping<TranslationEntity>() {
             @Override
             public void onSuccess(TranslationEntity response) {
-                System.out.println(response.getText());
+                getPresenter().didTranslate(response.getText().get(0));
             }
 
             @Override

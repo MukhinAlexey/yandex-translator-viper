@@ -4,7 +4,7 @@ interface TranslatorInteractorOutput {
 
     void didGetSelectedLanguages(String fromLanguage, String toLanguage);
 
-    void didGetTranslation(String translatedText);
+    void didTranslate(String text);
 
     void didCheckLanguage(String translatedText);
 

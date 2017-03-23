@@ -69,7 +69,7 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    getPresenter().getTranslation("en", "ru", editText.getText().toString());
+                    getPresenter().translate(editText.getText().toString(), "en", "ru");
                 }
                 return false;
             }
@@ -80,6 +80,11 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
     public void didGetSelectedLanguages(String fromLanguage, String toLanguage) {
         this.fromLanguageButton.setText(fromLanguage);
         this.toLanguageButton.setText(toLanguage);
+    }
+
+    @Override
+    public void didTranslate(String text) {
+        this.editText.setText(text);
     }
 
 }
