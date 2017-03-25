@@ -16,10 +16,10 @@ public class SelectLanguageAssembly {
         SelectLanguagePresenter selectLanguagePresenter = new SelectLanguagePresenter();
         SelectLanguageInteractor selectLanguageInteractor = new SelectLanguageInteractor();
         SelectLanguageRouterInput selectLanguageRouter = new SelectLanguageRouter();
-        Database realmDatabaase = new RealmDatabase();
+        Database realmDatabase = new RealmDatabase();
 
         selectLanguageInteractor.setPresenter(selectLanguagePresenter);
-        selectLanguageInteractor.setDatabase(realmDatabaase);
+        selectLanguageInteractor.setDatabase(realmDatabase);
         selectLanguagePresenter.setInteractor(selectLanguageInteractor);
         selectLanguagePresenter.setRouter(selectLanguageRouter);
         selectLanguagePresenter.setView(selectLanguageActivity);

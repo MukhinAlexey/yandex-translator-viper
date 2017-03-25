@@ -7,19 +7,18 @@ import android.view.View;
 import android.widget.Button;
 
 import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BaseActivity;
+import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
 import com.alexeymukhin.yandextranslator.Objects.Language;
 import com.alexeymukhin.yandextranslator.R;
 import com.alexeymukhin.yandextranslator.SelectLanguageModule.RecycleView.SelectLanguageAdapter;
 
 import java.util.ArrayList;
 
-public class SelectLanguageActivity extends BaseActivity<SelectLanguagePresenter> implements SelectLanguageActivityInput {
+public class SelectLanguageActivity
+        extends BaseActivity<SelectLanguagePresenter>
+        implements SelectLanguageActivityInput {
 
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-    private Button backButton;
+    private Boolean isFromLanguage;
 
     private ArrayList<Language> languages = new ArrayList<>();
 
@@ -27,11 +26,11 @@ public class SelectLanguageActivity extends BaseActivity<SelectLanguagePresenter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_language);
+
         this.configureVIPER();
         this.configureButtons();
         this.configureData();
         this.configureRecycleView();
-
     }
 
     void configureVIPER() {
@@ -39,12 +38,13 @@ public class SelectLanguageActivity extends BaseActivity<SelectLanguagePresenter
     }
 
     void configureData(){
+        this.isFromLanguage = getIntent().getBooleanExtra("isFromLanguage", false);
         getPresenter().getLanguages();
     }
 
     void configureButtons() {
-        this.backButton = (Button) findViewById(R.id.backButton);
-        this.backButton.setOnClickListener(new View.OnClickListener() {
+        Button backButton = (Button) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -53,16 +53,33 @@ public class SelectLanguageActivity extends BaseActivity<SelectLanguagePresenter
     }
 
     void configureRecycleView() {
-        recyclerView = (RecyclerView) findViewById(R.id.select_languages_recycle_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.select_languages_recycle_view);
         recyclerView.hasFixedSize();
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SelectLanguageAdapter(languages);
+        RecyclerView.Adapter adapter =
+                new SelectLanguageAdapter(this.languages, new Escaping<String>() {
+            @Override
+            public void onSuccess(String response) {
+                getPresenter().selectLanguage(response, isFromLanguage);
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
+
 
     @Override
     public void didGet(ArrayList<Language> languages) {
         this.languages = languages;
+    }
+
+    @Override
+    public void didSelectLanguage() {
+        finish();
     }
 }

@@ -40,6 +40,12 @@ class SelectLanguageInteractor
         });
     }
 
+    @Override
+    public void selectLanguage(String language, Boolean isFromLanguage) {
+        this.database.selectLanguage(language, isFromLanguage);
+        getPresenter().didSelectLanguage();
+    }
+
     private ArrayList<Language> transformToPOJO(ArrayList<LanguageEntity> languageEntities) {
         ArrayList<Language> languages = new ArrayList<Language>();
         for (LanguageEntity languageEntity : languageEntities) {

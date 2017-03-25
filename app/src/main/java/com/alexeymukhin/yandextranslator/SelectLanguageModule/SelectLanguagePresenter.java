@@ -8,7 +8,7 @@ import com.alexeymukhin.yandextranslator.Objects.Language;
 import java.util.ArrayList;
 
 
-public class SelectLanguagePresenter
+class SelectLanguagePresenter
         extends BasePresenter<SelectLanguageActivityInput, SelectLanguageRouterInput, SelectLanguageInteractorInput>
         implements SelectLanguagePresenterInput {
 
@@ -21,8 +21,8 @@ public class SelectLanguagePresenter
     }
 
     @Override
-    public void selectLanguage(String language){
-
+    public void selectLanguage(String language, Boolean isLanguageFrom){
+        getInteractor().selectLanguage(language, isLanguageFrom);
     }
 
     // ============================= Output Interface ========================
@@ -31,6 +31,11 @@ public class SelectLanguagePresenter
     @Override
     public void didGetLanguages(ArrayList<Language> languages) {
         getView().didGet(languages);
+    }
+
+    @Override
+    public void didSelectLanguage() {
+        getView().didSelectLanguage();
     }
 
     @Override

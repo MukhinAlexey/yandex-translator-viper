@@ -8,6 +8,8 @@ interface SelectLanguageInteractorOutput {
 
     void didGetLanguages(ArrayList<Language> languages);
 
+    void didSelectLanguage();
+
     void didGetError();
 
 }

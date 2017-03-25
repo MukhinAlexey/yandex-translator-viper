@@ -39,16 +39,8 @@ class LoadingInteractor
         this.server.getSupportedLanguages(uiLanguage, new Escaping<LanguageConfigEntity>() {
             @Override
             public void onSuccess(LanguageConfigEntity response) {
-                for (String directionString : response.getDirections()) {
-                    DirectionEntity direction = new DirectionEntity(directionString);
-                    database.saveDirection(direction);
-                }
-
-                for (Map.Entry<String, String> entry : response.getLanguages().entrySet()) {
-                    LanguageEntity language = new LanguageEntity(entry.getKey(), entry.getValue());
-                    database.saveLanguage(language);
-                }
-
+                database.saveDirections(response.getDirections());
+                database.saveLanguages(response.getLanguages());
                 getPresenter().didGetSupportedLanguages();
             }
             @Override

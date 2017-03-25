@@ -22,12 +22,11 @@ public class TranslatorPresenter
         getInteractor().translate(text, fromLanguage, toLanguage);
     }
 
-
     @Override
-    public void showSelectLanguageActivityOver(Activity parentActivity) {
-        getRouter().showLanguageSelectActivityOver(parentActivity);
-    }
+    public void showSelectLanguageActivity(Boolean isFromLanguage) {
+        getRouter().showLanguageSelectActivity(isFromLanguage);
 
+    }
 
     // ============================= Output Interface ========================
 

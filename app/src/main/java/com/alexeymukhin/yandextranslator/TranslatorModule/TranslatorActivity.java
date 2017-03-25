@@ -20,7 +20,6 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
     Button fromLanguageButton;
     Button swapLanguagesButton;
     Button toLanguageButton;
-    Activity thisActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +29,11 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
         this.configureVIPER();
         this.configureButtons();
         this.configureEditText();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         this.getPresenter().getSelectedLanguages();
     }
 
@@ -38,14 +42,14 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
         this.fromLanguageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPresenter().showSelectLanguageActivityOver(thisActivity);
+                getPresenter().showSelectLanguageActivity(true);
             }
         });
         this.toLanguageButton = (Button) findViewById(R.id.toLanguageButton);
         this.toLanguageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPresenter().showSelectLanguageActivityOver(thisActivity);
+                getPresenter().showSelectLanguageActivity(false);
             }
         });
         this.swapLanguagesButton = (Button) findViewById(R.id.swapLanguagesButton);

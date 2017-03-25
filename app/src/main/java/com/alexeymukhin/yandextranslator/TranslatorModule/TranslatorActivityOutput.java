@@ -8,6 +8,6 @@ interface TranslatorActivityOutput {
 
     void translate(String text, String fromLanguage, String toLanguage);
 
-    void showSelectLanguageActivityOver(Activity parentActivity);
+    void showSelectLanguageActivity(Boolean isFromLanguage);
 
 }

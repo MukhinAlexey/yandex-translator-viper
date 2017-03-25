@@ -6,6 +6,6 @@ interface SelectLanguageActivityOutput {
 
     void getLanguages();
 
-    void selectLanguage(String language);
+    void selectLanguage(String language, Boolean isFrom);
 
 }

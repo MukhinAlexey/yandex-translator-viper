@@ -5,11 +5,20 @@ import com.alexeymukhin.yandextranslator.Entities.LanguageEntity;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Database {
 
     void saveDirection(DirectionEntity direction);
-    void saveLanguage(LanguageEntity language);
-    void getLanguages(Escaping<List<LanguageEntity>> escaping);
+    void saveDirections(List<String> directions);
 
+    void saveLanguage(LanguageEntity language);
+    void saveLanguages(Map<String, String> languages);
+
+    void getLanguages(Escaping<List<LanguageEntity>> escaping);
+    void getSelectedLanguages(Escaping<Map<String, String>> escaping);
+
+    void selectLanguage(String language, Boolean isFromLanguage);
+
+    void saveToHistory(String fromWord, String toWord);
 }

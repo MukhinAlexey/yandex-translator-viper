@@ -4,4 +4,6 @@ interface SelectLanguageInteractorInput {
 
     void getLanguages();
 
+    void selectLanguage(String language, Boolean isFromLanguage);
+
 }
