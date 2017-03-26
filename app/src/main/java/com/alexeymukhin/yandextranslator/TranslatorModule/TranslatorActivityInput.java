@@ -1,8 +1,12 @@
 package com.alexeymukhin.yandextranslator.TranslatorModule;
 
+import com.alexeymukhin.yandextranslator.Objects.Language;
+
+import java.util.Map;
+
 interface TranslatorActivityInput {
 
-    void didGetSelectedLanguages(String fromLanguage, String toLanguage);
+    void didGetSelectedLanguages(Map<String, Language> fromToLanguages);
 
     void didTranslate(String text);
 

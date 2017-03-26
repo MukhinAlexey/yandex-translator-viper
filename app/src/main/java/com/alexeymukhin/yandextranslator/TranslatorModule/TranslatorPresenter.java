@@ -3,6 +3,9 @@ package com.alexeymukhin.yandextranslator.TranslatorModule;
 import android.app.Activity;
 
 import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BasePresenter;
+import com.alexeymukhin.yandextranslator.Objects.Language;
+
+import java.util.Map;
 
 
 public class TranslatorPresenter
@@ -31,8 +34,8 @@ public class TranslatorPresenter
     // ============================= Output Interface ========================
 
     @Override
-    public void didGetSelectedLanguages(String fromLanguage, String toLanguage) {
-        getView().didGetSelectedLanguages(fromLanguage, toLanguage);
+    public void didGetSelectedLanguages(Map<String, Language> fromToLanguages) {
+        getView().didGetSelectedLanguages(fromToLanguages);
     }
 
     @Override

@@ -9,17 +9,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alexeymukhin.yandextranslator.Entities.LanguageEntity;
 import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BaseActivity;
+import com.alexeymukhin.yandextranslator.Objects.Language;
 import com.alexeymukhin.yandextranslator.R;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> implements TranslatorActivityInput {
 
     EditText editText;
     Button fromLanguageButton;
-    Button swapLanguagesButton;
     Button toLanguageButton;
+
+    Map<String, Language> fromToLanguages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +56,8 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
                 getPresenter().showSelectLanguageActivity(false);
             }
         });
-        this.swapLanguagesButton = (Button) findViewById(R.id.swapLanguagesButton);
-        this.swapLanguagesButton.setOnClickListener(new View.OnClickListener() {
+        Button swapLanguagesButton = (Button) findViewById(R.id.swapLanguagesButton);
+        swapLanguagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String temp = fromLanguageButton.getText().toString();
@@ -73,7 +77,12 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    getPresenter().translate(editText.getText().toString(), "en", "ru");
+                    System.out.print(fromToLanguages.toString());
+                    getPresenter().translate(
+                            editText.getText().toString(),
+                            fromToLanguages.get("fromLanguage").getShortName(),
+                            fromToLanguages.get("toLanguage").getShortName()
+                    );
                 }
                 return false;
             }
@@ -81,9 +90,10 @@ public class TranslatorActivity extends BaseActivity<TranslatorActivityOutput> i
     }
 
     @Override
-    public void didGetSelectedLanguages(String fromLanguage, String toLanguage) {
-        this.fromLanguageButton.setText(fromLanguage);
-        this.toLanguageButton.setText(toLanguage);
+    public void didGetSelectedLanguages(Map<String, Language> fromToLanguages) {
+        this.fromToLanguages = fromToLanguages;
+        this.fromLanguageButton.setText(fromToLanguages.get("fromLanguage").getFullName());
+        this.toLanguageButton.setText(fromToLanguages.get("toLanguage").getFullName());
     }
 
     @Override

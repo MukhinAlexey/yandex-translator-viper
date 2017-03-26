@@ -16,9 +16,11 @@ public interface Database {
     void saveLanguages(Map<String, String> languages);
 
     void getLanguages(Escaping<List<LanguageEntity>> escaping);
-    void getSelectedLanguages(Escaping<Map<String, String>> escaping);
+    void getSelectedLanguages(Escaping<Map<String, LanguageEntity>> escaping);
 
     void selectLanguage(String language, Boolean isFromLanguage);
 
     void saveToHistory(String fromWord, String toWord);
+
+    boolean isFromLanguageSelected();
 }

@@ -16,7 +16,7 @@ import io.realm.RealmResults;
 public class RealmDatabase
         implements Database {
 
-    Realm realm = Realm.getDefaultInstance();
+    private Realm realm = Realm.getDefaultInstance();
 
     @Override
     public void saveDirection(final DirectionEntity direction) {
@@ -65,14 +65,11 @@ public class RealmDatabase
     }
 
     @Override
-    public void getSelectedLanguages(final Escaping<Map<String, String>> escaping) {
+    public void getSelectedLanguages(final Escaping<Map<String, LanguageEntity>> escaping) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Map<String, String> fromToLanguages = new HashMap<String, String>();
-
-                String fromLanguageString;
-                String toLanguageString;
+                Map<String, LanguageEntity> fromToLanguages = new HashMap<String, LanguageEntity>();
 
                 LanguageEntity fromLanguage = realm
                         .where(LanguageEntity.class)
@@ -85,19 +82,17 @@ public class RealmDatabase
                         .findFirst();
 
                 if (fromLanguage == null) {
-                    fromLanguageString = "Русский";
-                } else {
-                    fromLanguageString = fromLanguage.getFullName();
+                    fromLanguage = realm
+                            .where(LanguageEntity.class).findFirst();
                 }
 
                 if (toLanguage == null) {
-                    toLanguageString = "Английский";
-                } else {
-                    toLanguageString = toLanguage.getFullName();
+                    toLanguage = realm
+                            .where(LanguageEntity.class).findFirst();
                 }
 
-                fromToLanguages.put("fromLanguage", fromLanguageString);
-                fromToLanguages.put("toLanguage", toLanguageString);
+                fromToLanguages.put("fromLanguage", fromLanguage);
+                fromToLanguages.put("toLanguage", toLanguage);
                 escaping.onSuccess(fromToLanguages);
             }
         });
@@ -168,6 +163,11 @@ public class RealmDatabase
     @Override
     public void saveToHistory(String fromWord, String toWord) {
 
+    }
+
+    @Override
+    public boolean isFromLanguageSelected() {
+        return false;
     }
 
 }

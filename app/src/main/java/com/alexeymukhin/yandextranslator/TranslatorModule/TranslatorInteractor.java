@@ -1,11 +1,14 @@
 package com.alexeymukhin.yandextranslator.TranslatorModule;
 
+import com.alexeymukhin.yandextranslator.Entities.LanguageEntity;
 import com.alexeymukhin.yandextranslator.Entities.TranslationEntity;
 import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BaseInteractor;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
+import com.alexeymukhin.yandextranslator.Objects.Language;
 import com.alexeymukhin.yandextranslator.Services.API.APIService;
 import com.alexeymukhin.yandextranslator.Services.Datastore.Database;
 
+import java.util.HashMap;
 import java.util.Map;
 
 class TranslatorInteractor
@@ -26,13 +29,13 @@ class TranslatorInteractor
 
     @Override
     public void getSelectedLanguages() {
-        this.database.getSelectedLanguages(new Escaping<Map<String, String>>() {
+        this.database.getSelectedLanguages(new Escaping<Map<String, LanguageEntity>>() {
             @Override
-            public void onSuccess(Map<String, String> response) {
-                getPresenter().didGetSelectedLanguages(
-                        response.get("fromLanguage"),
-                        response.get("toLanguage")
-                );
+            public void onSuccess(Map<String, LanguageEntity> response) {
+                Map<String, Language> fromToLanguage = new HashMap<String, Language>();
+                fromToLanguage.put("fromLanguage", new Language(response.get("fromLanguage")));
+                fromToLanguage.put("toLanguage", new Language(response.get("toLanguage")));
+                getPresenter().didGetSelectedLanguages(fromToLanguage);
             }
 
             @Override
@@ -44,7 +47,8 @@ class TranslatorInteractor
 
     @Override
     public void translate(String text, String fromLanguage, String toLanguage) {
-        server.getTranslation(text, "en-ru", new Escaping<TranslationEntity>() {
+        String direction = fromLanguage.concat("-").concat(toLanguage);
+        server.getTranslation(text, direction, new Escaping<TranslationEntity>() {
             @Override
             public void onSuccess(TranslationEntity response) {
                 getPresenter().didTranslate(response.getText().get(0));
