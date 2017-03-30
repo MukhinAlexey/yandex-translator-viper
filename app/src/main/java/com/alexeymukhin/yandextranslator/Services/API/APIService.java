@@ -1,7 +1,7 @@
 package com.alexeymukhin.yandextranslator.Services.API;
 
 import com.alexeymukhin.yandextranslator.Entities.LanguageConfigEntity;
-import com.alexeymukhin.yandextranslator.Entities.TranslationEntity;
+import com.alexeymukhin.yandextranslator.Entities.ServerTranslationEntity;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
 
 public interface APIService {
@@ -12,6 +12,6 @@ public interface APIService {
 
     void getTranslation(String text,
                         String direction,
-                        Escaping<TranslationEntity> escaping);
+                        Escaping<ServerTranslationEntity> escaping);
 
 }

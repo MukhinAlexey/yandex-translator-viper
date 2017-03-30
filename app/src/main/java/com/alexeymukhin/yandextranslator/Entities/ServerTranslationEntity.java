@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TranslationEntity {
+public class ServerTranslationEntity {
     @SerializedName("code")
     @Expose
     private Integer code;

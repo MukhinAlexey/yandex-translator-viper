@@ -6,7 +6,6 @@ import io.realm.annotations.PrimaryKey;
 
 public class Language {
 
-    @PrimaryKey
     private String shortName;
     private String fullName;
 

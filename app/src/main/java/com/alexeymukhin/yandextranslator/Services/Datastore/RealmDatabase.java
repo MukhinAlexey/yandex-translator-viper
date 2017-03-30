@@ -3,15 +3,16 @@ package com.alexeymukhin.yandextranslator.Services.Datastore;
 
 import com.alexeymukhin.yandextranslator.Entities.DirectionEntity;
 import com.alexeymukhin.yandextranslator.Entities.LanguageEntity;
+import com.alexeymukhin.yandextranslator.Entities.LocalTranslationEntity;
+import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BaseActivity;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
-import com.alexeymukhin.yandextranslator.Objects.Language;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class RealmDatabase
         implements Database {
@@ -49,8 +50,7 @@ public class RealmDatabase
     @Override
     public void saveLanguages(Map<String, String> languages) {
         for (Map.Entry<String, String> entry : languages.entrySet()) {
-            LanguageEntity language = new LanguageEntity(entry.getKey(), entry.getValue());
-            saveLanguage(language);
+            saveLanguage(new LanguageEntity(entry.getKey(), entry.getValue()));
         }
     }
 
@@ -94,6 +94,45 @@ public class RealmDatabase
                 fromToLanguages.put("fromLanguage", fromLanguage);
                 fromToLanguages.put("toLanguage", toLanguage);
                 escaping.onSuccess(fromToLanguages);
+            }
+        });
+    }
+
+    @Override
+    public void swapSelectedLanguages(final Map<String, LanguageEntity> fromToLanguages,
+                                      final Escaping<Map<String, LanguageEntity>> escaping) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.where(LanguageEntity.class)
+                        .equalTo("fullName", fromToLanguages.get("fromLanguage").getFullName())
+                        .findFirst()
+                        .setFromSelected(false);
+                realm.where(LanguageEntity.class)
+                        .equalTo("fullName", fromToLanguages.get("fromLanguage").getFullName())
+                        .findFirst()
+                        .setToSelected(true);
+
+                realm.where(LanguageEntity.class)
+                        .equalTo("fullName", fromToLanguages.get("toLanguage").getFullName())
+                        .findFirst()
+                        .setFromSelected(true);
+                realm.where(LanguageEntity.class)
+                        .equalTo("fullName", fromToLanguages.get("toLanguage").getFullName())
+                        .findFirst()
+                        .setToSelected(false);
+
+            }
+        });
+        getSelectedLanguages(new Escaping<Map<String, LanguageEntity>>() {
+            @Override
+            public void onSuccess(Map<String, LanguageEntity> response) {
+                escaping.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+
             }
         });
     }
@@ -163,6 +202,28 @@ public class RealmDatabase
     @Override
     public void saveToHistory(String fromWord, String toWord) {
 
+    }
+
+    @Override
+    public void getTranslationHistory(final Escaping<List<LocalTranslationEntity>> escaping) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ArrayList<LocalTranslationEntity> translationList =
+                        new ArrayList(realm.where(LocalTranslationEntity.class).findAll());
+                escaping.onSuccess(translationList);
+            }
+        });
+    }
+
+    @Override
+    public void saveIntoTranslationHistory(final LocalTranslationEntity translation) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(translation);
+            }
+        });
     }
 
     @Override

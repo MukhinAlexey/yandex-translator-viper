@@ -3,6 +3,9 @@ package com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers;
 import android.app.Activity;
 import android.os.Bundle;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 public class BaseActivity<Presenter> extends Activity {
 
     Presenter presenter;

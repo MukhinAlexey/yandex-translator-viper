@@ -3,7 +3,7 @@ package com.alexeymukhin.yandextranslator.Services.API;
 import android.text.TextUtils;
 
 import com.alexeymukhin.yandextranslator.Entities.LanguageConfigEntity;
-import com.alexeymukhin.yandextranslator.Entities.TranslationEntity;
+import com.alexeymukhin.yandextranslator.Entities.ServerTranslationEntity;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
 
 import java.util.List;
@@ -45,17 +45,17 @@ public class APIServiceImpl implements APIService {
     }
 
     @Override
-    public void getTranslation(String text, String direction, final Escaping<TranslationEntity> escaping) {
+    public void getTranslation(String text, String direction, final Escaping<ServerTranslationEntity> escaping) {
         this.yandexTranslatorAPI.getTranslation(text, direction, token)
-                .enqueue(new Callback<TranslationEntity>() {
+                .enqueue(new Callback<ServerTranslationEntity>() {
                     @Override
-                    public void onResponse(Call<TranslationEntity> call, Response<TranslationEntity> response) {
+                    public void onResponse(Call<ServerTranslationEntity> call, Response<ServerTranslationEntity> response) {
                         System.out.println(response.body().toString());
                         escaping.onSuccess(response.body());
                     }
 
                     @Override
-                    public void onFailure(Call<TranslationEntity> call, Throwable t) {
+                    public void onFailure(Call<ServerTranslationEntity> call, Throwable t) {
 
                     }
                 });

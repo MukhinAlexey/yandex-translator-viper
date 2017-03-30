@@ -54,4 +54,5 @@ public class LanguageEntity
     public void setToSelected(Boolean toSelected) {
         isToSelected = toSelected;
     }
+
 }
