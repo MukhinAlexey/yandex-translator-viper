@@ -3,9 +3,6 @@ package com.alexeymukhin.yandextranslator.Entities;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by alexey on 30.03.17.
- */
 
 public class LocalTranslationEntity
         extends RealmObject {
@@ -13,6 +10,8 @@ public class LocalTranslationEntity
     private long time;
 
     @PrimaryKey
+    private String compoundPrimaryKey;
+
     private String fromText;
     private String toText;
 
@@ -70,6 +69,7 @@ public class LocalTranslationEntity
                                   String toText,
                                   String fromLanguage,
                                   String toLanguage) {
+        this.compoundPrimaryKey = fromText + " " + fromLanguage + " " + toLanguage;
         this.time = time;
         this.fromLanguage = fromLanguage;
         this.toLanguage = toLanguage;

@@ -1,11 +1,16 @@
 package com.alexeymukhin.yandextranslator.TranslatorModule;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,10 +31,13 @@ public class TranslatorActivity
         extends BaseActivity<TranslatorActivityOutput>
         implements TranslatorActivityInput {
 
-    TextView translationTextView;
-    EditText editText;
     Button fromLanguageButton;
     Button toLanguageButton;
+
+    RecyclerView recyclerView;
+    TranslationAdapter translationAdapter;
+
+    List<Translation> translations;
 
     Map<String, Language> fromToLanguages;
 
@@ -40,7 +48,7 @@ public class TranslatorActivity
 
         this.configureVIPER();
         this.configureButtons();
-        this.configureEditText();
+        this.configureRecycleView();
     }
 
     @Override
@@ -49,7 +57,7 @@ public class TranslatorActivity
         this.getPresenter().getSelectedLanguages();
     }
 
-    void configureButtons(){
+    void configureButtons() {
         this.fromLanguageButton = (Button) findViewById(R.id.fromLanguageButton);
         this.fromLanguageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,39 +73,57 @@ public class TranslatorActivity
             }
         });
         Button swapLanguagesButton = (Button) findViewById(R.id.swapLanguagesButton);
+        swapLanguagesButton.setBackgroundResource(R.drawable.swap_arrows);
+
         swapLanguagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String temp = fromLanguageButton.getText().toString();
                 fromLanguageButton.setText(toLanguageButton.getText());
                 toLanguageButton.setText(temp);
-                temp = translationTextView.getText().toString();
+                getPresenter().swapSelectedLanguages();
+                /*temp = translationTextView.getText().toString();
                 translationTextView.setText(editText.getText().toString());
                 editText.setText(temp);
-                getPresenter().swapSelectedLanguages();
+                */
             }
         });
     }
 
-    void configureVIPER(){
+    void configureVIPER() {
         TranslatorAssembly.INSTANCE.configure(this);
     }
 
-    void configureEditText() {
-        this.editText = (EditText) findViewById(R.id.editText);
-        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    void configureRecycleView() {
+        recyclerView = (RecyclerView) findViewById(R.id.translations_recycle_view);
+        recyclerView.hasFixedSize();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        translationAdapter = new TranslationAdapter();
+        translationAdapter.setOnTranslateAction(new Escaping<String>() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    getPresenter().translate(
-                            editText.getText().toString(),
-                            fromToLanguages.get("fromLanguage").getShortName(),
-                            fromToLanguages.get("toLanguage").getShortName()
-                    );
-                }
+            public void onSuccess(String response) {
+                getPresenter().translate(
+                        response,
+                        fromToLanguages
+                );
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+
+            }
+        });
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 return false;
             }
         });
+        recyclerView.setAdapter(translationAdapter);
+        getPresenter().getTranslationHistory();
     }
 
     @Override
@@ -109,30 +135,14 @@ public class TranslatorActivity
 
     @Override
     public void didTranslate(String text) {
-        this.translationTextView = (TextView) findViewById(R.id.translationTextView);
-        this.translationTextView.setText(text);
+        translationAdapter.setTranslatedText(text);
         getPresenter().getTranslationHistory();
     }
 
     @Override
     public void didGetTranslationHistory(List<Translation> translations) {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.translations_recycle_view);
-        recyclerView.hasFixedSize();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter adapter =
-                new TranslationAdapter(translations, new Escaping<String>() {
-                    @Override
-                    public void onSuccess(String response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable error) {
-
-                    }
-                });
-        recyclerView.setAdapter(adapter);
+        this.translations = translations;
+        this.translationAdapter.setTranslations(translations);
     }
 
 }

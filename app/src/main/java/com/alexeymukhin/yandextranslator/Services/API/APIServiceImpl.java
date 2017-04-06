@@ -29,11 +29,13 @@ public class APIServiceImpl implements APIService {
 
 
     @Override
-    public void getSupportedLanguages(String uiLanguage, final Escaping<LanguageConfigEntity> escaping) {
+    public void getSupportedLanguages(String uiLanguage,
+                                      final Escaping<LanguageConfigEntity> escaping) {
         this.yandexTranslatorAPI.getSupportedLanguages(uiLanguage, token)
                 .enqueue(new Callback<LanguageConfigEntity>() {
                     @Override
-                    public void onResponse(Call<LanguageConfigEntity> call, Response<LanguageConfigEntity> response) {
+                    public void onResponse(Call<LanguageConfigEntity> call,
+                                           Response<LanguageConfigEntity> response) {
                         escaping.onSuccess(response.body());
                     }
 
@@ -45,12 +47,13 @@ public class APIServiceImpl implements APIService {
     }
 
     @Override
-    public void getTranslation(String text, String direction, final Escaping<ServerTranslationEntity> escaping) {
+    public void getTranslation(String text, String direction,
+                               final Escaping<ServerTranslationEntity> escaping) {
         this.yandexTranslatorAPI.getTranslation(text, direction, token)
                 .enqueue(new Callback<ServerTranslationEntity>() {
                     @Override
-                    public void onResponse(Call<ServerTranslationEntity> call, Response<ServerTranslationEntity> response) {
-                        System.out.println(response.body().toString());
+                    public void onResponse(Call<ServerTranslationEntity> call,
+                                           Response<ServerTranslationEntity> response) {
                         escaping.onSuccess(response.body());
                     }
 

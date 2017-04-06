@@ -27,6 +27,7 @@ public interface Database {
 
     void getTranslationHistory(Escaping<List<LocalTranslationEntity>> escaping);
     void saveIntoTranslationHistory(LocalTranslationEntity translation);
+    void clearTranslationHistory();
 
     boolean isFromLanguageSelected();
 }

@@ -35,8 +35,8 @@ public class TranslatorPresenter
     }
 
     @Override
-    public void translate(String text, String fromLanguage, String toLanguage) {
-        getInteractor().translate(text, fromLanguage, toLanguage);
+    public void translate(String text,  Map<String, Language> fromToLanguages) {
+        getInteractor().translate(text, fromToLanguages);
     }
 
     @Override

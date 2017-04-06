@@ -75,21 +75,29 @@ class TranslatorInteractor
     }
 
     @Override
-    public void translate(final String text, final String fromLanguage, final String toLanguage) {
-        String direction = fromLanguage.concat("-").concat(toLanguage);
+    public void translate(final String text,
+                          final Map<String, Language> fromToLanguages) {
+
+        String direction =
+                fromToLanguages.get("fromLanguage").getShortName()
+                .concat("-")
+                .concat(fromToLanguages.get("toLanguage").getShortName());
+
         server.getTranslation(text, direction, new Escaping<ServerTranslationEntity>() {
             @Override
             public void onSuccess(ServerTranslationEntity response) {
 
-                database.saveIntoTranslationHistory(
-                        new LocalTranslationEntity(
-                                System.currentTimeMillis(),
-                                text,
-                                response.getText().toString(),
-                                fromLanguage,
-                                toLanguage));
+                if (response != null) {
+                    database.saveIntoTranslationHistory(
+                            new LocalTranslationEntity(
+                                    System.currentTimeMillis(),
+                                    text,
+                                    response.getText().toString(),
+                                    fromToLanguages.get("fromLanguage").getFullName(),
+                                    fromToLanguages.get("toLanguage").getFullName()));
 
-                getPresenter().didTranslate(response.getText().get(0));
+                    getPresenter().didTranslate(response.getText().get(0));
+                }
             }
             @Override
             public void onFailure(Throwable error) {

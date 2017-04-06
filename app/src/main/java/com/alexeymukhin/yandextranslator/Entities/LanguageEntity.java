@@ -9,6 +9,7 @@ public class LanguageEntity
     @PrimaryKey
     private String shortName;
     private String fullName;
+
     private Boolean isFromSelected;
     private Boolean isToSelected;
 

@@ -1,6 +1,8 @@
 package com.alexeymukhin.yandextranslator.TranslatorModule;
 
-import android.app.Activity;
+import com.alexeymukhin.yandextranslator.Objects.Language;
+
+import java.util.Map;
 
 interface TranslatorActivityOutput {
 
@@ -10,7 +12,7 @@ interface TranslatorActivityOutput {
 
     void swapSelectedLanguages();
 
-    void translate(String text, String fromLanguage, String toLanguage);
+    void translate(String text, Map<String, Language> fromToLanguages);
 
     void showSelectLanguageActivity(Boolean isFromLanguage);
 

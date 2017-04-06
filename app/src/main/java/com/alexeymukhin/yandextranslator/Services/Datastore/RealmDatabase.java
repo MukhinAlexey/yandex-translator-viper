@@ -4,7 +4,6 @@ package com.alexeymukhin.yandextranslator.Services.Datastore;
 import com.alexeymukhin.yandextranslator.Entities.DirectionEntity;
 import com.alexeymukhin.yandextranslator.Entities.LanguageEntity;
 import com.alexeymukhin.yandextranslator.Entities.LocalTranslationEntity;
-import com.alexeymukhin.yandextranslator.Helpers.AbstractHelpers.BaseActivity;
 import com.alexeymukhin.yandextranslator.Helpers.Callback.Escaping;
 
 import java.util.ArrayList;
@@ -42,7 +41,11 @@ public class RealmDatabase
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(language);
+                if (realm.where(LanguageEntity.class)
+                        .equalTo("shortName", language.getShortName())
+                        .findFirst() == null) {
+                    realm.copyToRealmOrUpdate(language);
+                }
             }
         });
     }
@@ -59,7 +62,9 @@ public class RealmDatabase
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                escaping.onSuccess(realm.copyFromRealm(realm.where(LanguageEntity.class).findAll()));
+                escaping.onSuccess(realm.copyFromRealm(realm
+                        .where(LanguageEntity.class)
+                        .findAll()));
             }
         });
     }
@@ -222,6 +227,16 @@ public class RealmDatabase
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(translation);
+            }
+        });
+    }
+
+    @Override
+    public void clearTranslationHistory() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(LocalTranslationEntity.class);
             }
         });
     }
