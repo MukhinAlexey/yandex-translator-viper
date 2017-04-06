@@ -16,4 +16,6 @@ interface TranslatorActivityOutput {
 
     void showSelectLanguageActivity(Boolean isFromLanguage);
 
+    void showFavoritesActivity();
+
 }

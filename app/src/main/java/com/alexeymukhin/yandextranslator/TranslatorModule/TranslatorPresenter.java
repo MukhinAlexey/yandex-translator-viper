@@ -45,6 +45,11 @@ public class TranslatorPresenter
 
     }
 
+    @Override
+    public void showFavoritesActivity() {
+        getRouter().showFavoritesActivity();
+    }
+
     // ============================= Output Interface ========================
 
     @Override

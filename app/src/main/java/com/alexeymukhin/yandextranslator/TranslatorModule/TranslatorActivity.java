@@ -2,6 +2,7 @@ package com.alexeymukhin.yandextranslator.TranslatorModule;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -86,6 +87,14 @@ public class TranslatorActivity
                 translationTextView.setText(editText.getText().toString());
                 editText.setText(temp);
                 */
+            }
+        });
+
+        FloatingActionButton floatingButton = (FloatingActionButton) findViewById(R.id.favorites);
+        floatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().showFavoritesActivity();
             }
         });
     }
