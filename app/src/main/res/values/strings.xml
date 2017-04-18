@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Яндекс переводчик</string>
     <string name="hint">Введите текст для перевода</string>
+
+    <!-- Navigation buttons -->
     <string name="back">Назад</string>
+    <string name="clear">Стереть все</string>
+
+    <!-- Header of Activity -->
+    <string name="favoriteHeader">Избранное</string>
+
 </resources>

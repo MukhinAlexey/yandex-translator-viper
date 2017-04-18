@@ -6,29 +6,21 @@ import java.util.Map;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class LanguageConfigEntity {
 
     @SerializedName("dirs")
     @Expose
+    @Getter
+    @Setter
     private List<String> directions;
+
     @SerializedName("langs")
     @Expose
+    @Getter
+    @Setter
     private Map<String, String> languages;
-
-    public List<String> getDirections() {
-        return directions;
-    }
-
-    public void setDirections(List<String> directions) {
-        this.directions = directions;
-    }
-
-    public Map<String, String> getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(Map<String, String> languages) {
-        this.languages = languages;
-    }
 
 }

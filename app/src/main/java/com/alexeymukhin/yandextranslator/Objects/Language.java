@@ -3,36 +3,21 @@ package com.alexeymukhin.yandextranslator.Objects;
 import com.alexeymukhin.yandextranslator.Entities.LanguageEntity;
 
 import io.realm.annotations.PrimaryKey;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Language {
 
+    @Getter
+    @Setter
     private String shortName;
+
+    @Getter
+    @Setter
     private String fullName;
 
-    public Boolean getSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(Boolean selected) {
-        isSelected = selected;
-    }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
+    @Getter
+    @Setter
     private Boolean isSelected;
 
     public Language(LanguageEntity languageEntity) {

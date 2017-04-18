@@ -4,58 +4,31 @@ import com.alexeymukhin.yandextranslator.Entities.LanguageEntity;
 import com.alexeymukhin.yandextranslator.Entities.LocalTranslationEntity;
 
 import io.realm.annotations.PrimaryKey;
+import lombok.Getter;
+import lombok.Setter;
 
 
 public class Translation {
 
+    @Getter
+    @Setter
     private long time;
 
+    @Getter
+    @Setter
     private String fromLanguage;
 
+    @Getter
+    @Setter
     private String toLanguage;
 
+    @Getter
+    @Setter
     private String fromText;
+
+    @Getter
+    @Setter
     private String toText;
-
-    public String getFromLanguage() {
-        return fromLanguage;
-    }
-
-    public void setFromLanguage(String fromLanguage) {
-        this.fromLanguage = fromLanguage;
-    }
-
-    public String getToLanguage() {
-        return toLanguage;
-    }
-
-    public void setToLanguage(String toLanguage) {
-        this.toLanguage = toLanguage;
-    }
-
-    public String getFromText() {
-        return fromText;
-    }
-
-    public void setFromText(String fromText) {
-        this.fromText = fromText;
-    }
-
-    public String getToText() {
-        return toText;
-    }
-
-    public void setToText(String toText) {
-        this.toText = toText;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
 
     public Translation() {
 

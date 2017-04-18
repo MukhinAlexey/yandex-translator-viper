@@ -4,7 +4,8 @@
     android:id="@+id/activity_select_language"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.alexeymukhin.yandextranslator.SelectLanguageModule.SelectLanguageActivity">
+    android:background="#ffffff"
+    tools:context=".Modules.SelectLanguage.SelectLanguageActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -21,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:layout_gravity="left"
             android:background="@color/colorPrimary"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorTextPrimary"
             android:stateListAnimator="@null"
             android:text="@string/back" />
 
